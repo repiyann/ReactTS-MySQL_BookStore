@@ -1,18 +1,13 @@
+import Dropdown from './dropdown.tsx'
 import { useTheme } from './useTheme.tsx'
 
 function Navbar() {
 	const { theme, setTheme } = useTheme()
 
-	function handleLightClick() {
-		setTheme('light')
-	}
-
-	function handleDarkClick() {
-		setTheme('dark')
-	}
-
-	function handleSystemClick() {
-		setTheme('system')
+	function handleSelect(option: string) {
+		if (option === 'light' || option === 'dark' || option === 'system') {
+			setTheme(option)
+		}
 	}
 
 	return (
@@ -29,27 +24,13 @@ function Navbar() {
 
 						<div className="hidden md:block">
 							<p className="text-black dark:text-white">Current Theme: {theme}</p>
-							<button
-								className="mr-2 text-black dark:text-white"
-								onClick={handleLightClick}
-								disabled={theme === 'light'}
-							>
-								Light
-							</button>
-							<button
-								className="mr-2 text-black dark:text-white"
-								onClick={handleDarkClick}
-								disabled={theme === 'dark'}
-							>
-								Dark
-							</button>
-							<button
-								className="text-black dark:text-white"
-								onClick={handleSystemClick}
-								disabled={theme === 'system'}
-							>
-								System
-							</button>
+							<Dropdown
+								options={['light', 'dark', 'system']}
+								onSelect={handleSelect}
+								className="custom-dropdown"
+								defaultOption={theme}
+								disableSelectOption={false}
+							/>
 							<a
 								href="#menu"
 								className="px-3 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
