@@ -5,9 +5,7 @@ function Navbar() {
 	const { theme, setTheme, actualTheme } = useTheme()
 
 	function handleSelect(option: string) {
-		if (option === 'light' || option === 'dark' || option === 'system') {
-			setTheme(option)
-		}
+		option === 'light' || option === 'dark' || option === 'system' ? setTheme(option) : null
 	}
 
 	return (
@@ -26,7 +24,7 @@ function Navbar() {
 							<Dropdown
 								options={['light', 'dark', 'system']}
 								onSelect={handleSelect}
-								className="px-3"
+								className="px-3 border rounded"
 								defaultOption={theme}
 							/>
 							<div>
