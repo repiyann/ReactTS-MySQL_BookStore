@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDisplay, faMoon } from '@fortawesome/free-solid-svg-icons'
+import { faSun } from '@fortawesome/free-regular-svg-icons'
 
 interface DropdownProps {
 	options: string[]
 	onSelect: (option: string) => void
 	className?: string
 	defaultOption?: string
-	disableSelectOption?: boolean
+	actualTheme: string
 }
 
-function Dropdown({ options, onSelect, className, defaultOption, disableSelectOption }: DropdownProps) {
+function Dropdown({ options, onSelect, className, defaultOption, actualTheme }: DropdownProps) {
 	const [selectedOption, setSelectedOption] = useState<string | null>(null)
 	const [isOpen, setIsOpen] = useState(false)
 	const [opened, setOpened] = useState(false)
@@ -28,34 +31,43 @@ function Dropdown({ options, onSelect, className, defaultOption, disableSelectOp
 	}
 
 	return (
-		<div className={`dropdown ${className || ''}`}>
+		<div className={`${className || ''}`}>
 			<div
-				className="dropdown-toggle text-black dark:text-white"
+				className="cursor-pointer text-black dark:text-white"
 				onClick={() => {
 					setIsOpen(!isOpen)
 					setOpened(true)
 				}}
 			>
-				{selectedOption !== null && selectedOption !== '' && opened
-					? 'Select an option'
-					: selectedOption
-					? selectedOption
-					: defaultOption || 'System Preference'}
+				{isOpen ? (
+					selectedOption !== null && selectedOption !== '' ? (
+						'Select an option'
+					) : (
+						selectedOption
+					)
+				) : (
+					<>
+						<FontAwesomeIcon icon={actualTheme === 'dark' ? faMoon : actualTheme === 'light' ? faSun : faDisplay} />
+						{selectedOption || defaultOption}
+					</>
+				)}
 				<span className={`arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>
 			</div>
 			{isOpen && (
-				<div className="dropdown-menu">
+				<div className="absolute z-10 bg-green-300">
 					{options.map((option, index) => (
-						<div key={index}>
+						<div
+							key={index}
+							className="border-b"
+						>
 							<button
 								onClick={() => {
 									handleOptionClick(option)
 								}}
-								className={`dropdown-item text-black dark:text-white ${
-									selectedOption === option && disableSelectOption ? 'disabled' : ''
-								}`}
-								disabled={selectedOption === option && disableSelectOption}
+								className="text-black dark:text-black"
+								disabled={selectedOption === option}
 							>
+								<FontAwesomeIcon icon={option === 'dark' ? faMoon : option === 'light' ? faSun : faDisplay} />
 								{option}
 							</button>
 						</div>
