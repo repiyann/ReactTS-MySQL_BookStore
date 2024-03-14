@@ -28,7 +28,6 @@ function Navbar() {
 								onSelect={handleSelect}
 								className="px-3"
 								defaultOption={theme}
-								actualTheme={theme}
 							/>
 							<div>
 								<a
