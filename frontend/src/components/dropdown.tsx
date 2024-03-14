@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDisplay, faMoon } from '@fortawesome/free-solid-svg-icons'
+import { faDisplay, faMoon, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { faSun } from '@fortawesome/free-regular-svg-icons'
 
 interface DropdownProps {
@@ -16,10 +16,7 @@ function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps
 	const [opened, setOpened] = useState(false)
 
 	useEffect(() => {
-		if (defaultOption && !selectedOption && opened) {
-			setSelectedOption(defaultOption)
-			onSelect(defaultOption)
-		}
+		defaultOption && !selectedOption && opened && (setSelectedOption(defaultOption), onSelect(defaultOption))
 	}, [defaultOption, onSelect, selectedOption, opened])
 
 	function handleOptionClick(option: string) {
@@ -46,11 +43,16 @@ function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps
 					)
 				) : (
 					<>
-						<FontAwesomeIcon icon={defaultOption === 'dark' ? faMoon : defaultOption === 'light' ? faSun : faDisplay} />
+						<FontAwesomeIcon
+							className="pr-2"
+							icon={defaultOption === 'dark' ? faMoon : defaultOption === 'light' ? faSun : faDisplay}
+						/>
 						{selectedOption || defaultOption}
 					</>
 				)}
-				<span className={`arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>
+				<span className="pl-2">
+					<FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+				</span>
 			</div>
 			{isOpen && (
 				<div className="absolute z-10 bg-green-300">
