@@ -22,20 +22,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 	function setTheme(newTheme: Theme) {
 		setThemeState(newTheme)
-		if (newTheme !== 'system') {
-			setActualTheme(newTheme)
-			localStorage.setItem('theme', newTheme)
-		} else {
-			localStorage.removeItem('theme')
-		}
+		newTheme !== 'system'
+			? (setActualTheme(newTheme), localStorage.setItem('theme', newTheme))
+			: localStorage.removeItem('theme')
 	}
 
 	useEffect(() => {
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 		const listener = () => {
-			if (theme === 'system') {
-				setActualTheme(mediaQuery.matches ? 'dark' : 'light')
-			}
+			theme === 'system' ? setActualTheme(mediaQuery.matches ? 'dark' : 'light') : null
 		}
 		listener()
 		mediaQuery.addEventListener('change', listener)
