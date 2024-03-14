@@ -3,6 +3,7 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { SnackbarProvider, closeSnackbar, SnackbarKey } from 'notistack'
 import { AiOutlineClose } from 'react-icons/ai'
+import { ThemeProvider } from './components/themeProvider.tsx'
 import './index.css'
 
 function closeSnackbarHandle(key: SnackbarKey) {
@@ -15,8 +16,10 @@ function closeSnackbarHandle(key: SnackbarKey) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<BrowserRouter>
-		<SnackbarProvider action={closeSnackbarHandle}>
-			<App />
-		</SnackbarProvider>
+		<ThemeProvider>
+			<SnackbarProvider action={closeSnackbarHandle}>
+				<App />
+			</SnackbarProvider>
+		</ThemeProvider>
 	</BrowserRouter>
 )
