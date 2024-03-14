@@ -13,6 +13,7 @@ ReactJS + MySQL to create a BookStore page with TypeScript
 - [ExpressJS](https://sequelize.org/)
 - [Axios](https://axios-http.com/docs/intro)
 - [React-Icons](https://www.npmjs.com/package/react-icons)
+- [Font Awesome](https://fontawesome.com/)
 
 # Getting Started
 
