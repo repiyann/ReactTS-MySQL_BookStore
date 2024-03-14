@@ -8,10 +8,9 @@ interface DropdownProps {
 	onSelect: (option: string) => void
 	className?: string
 	defaultOption?: string
-	actualTheme: string
 }
 
-function Dropdown({ options, onSelect, className, defaultOption, actualTheme }: DropdownProps) {
+function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps) {
 	const [selectedOption, setSelectedOption] = useState<string | null>(null)
 	const [isOpen, setIsOpen] = useState(false)
 	const [opened, setOpened] = useState(false)
@@ -47,7 +46,7 @@ function Dropdown({ options, onSelect, className, defaultOption, actualTheme }: 
 					)
 				) : (
 					<>
-						<FontAwesomeIcon icon={actualTheme === 'dark' ? faMoon : actualTheme === 'light' ? faSun : faDisplay} />
+						<FontAwesomeIcon icon={defaultOption === 'dark' ? faMoon : defaultOption === 'light' ? faSun : faDisplay} />
 						{selectedOption || defaultOption}
 					</>
 				)}
