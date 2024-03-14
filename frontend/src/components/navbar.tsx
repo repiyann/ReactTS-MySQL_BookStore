@@ -2,7 +2,7 @@ import Dropdown from './dropdown.tsx'
 import { useTheme } from './useTheme.tsx'
 
 function Navbar() {
-	const { theme, setTheme } = useTheme()
+	const { theme, setTheme, actualTheme } = useTheme()
 
 	function handleSelect(option: string) {
 		if (option === 'light' || option === 'dark' || option === 'system') {
@@ -21,34 +21,39 @@ function Navbar() {
 						>
 							<p className="hidden md:block ml-2 text-2xl font-bold dark:text-white"> GrinWell Clinic </p>
 						</a>
-
-						<div className="hidden md:block">
-							<p className="text-black dark:text-white">Current Theme: {theme}</p>
+						<div className="hidden md:flex">
+							<p className="text-black dark:text-white md:px-3">Current Theme: {actualTheme}</p>
 							<Dropdown
 								options={['light', 'dark', 'system']}
 								onSelect={handleSelect}
-								className="custom-dropdown"
+								className="px-3"
 								defaultOption={theme}
-								disableSelectOption={false}
+								actualTheme={theme}
 							/>
-							<a
-								href="#menu"
-								className="px-3 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
-							>
-								Services
-							</a>
-							<a
-								href="#about"
-								className="pl-3 pr-5 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
-							>
-								About Us
-							</a>
-							<a
-								href="#"
-								className="px-5 py-2 text-white text-lg font-semibold bg-[#9333ea] rounded-lg hover:bg-[#4c1b7a] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-							>
-								Book Now
-							</a>
+							<div>
+								<a
+									href="#menu"
+									className="px-3 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
+								>
+									Services
+								</a>
+							</div>
+							<div>
+								<a
+									href="#about"
+									className="pl-3 pr-5 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
+								>
+									About Us
+								</a>
+							</div>
+							<div>
+								<a
+									href="#"
+									className="px-5 py-2 text-white text-lg font-semibold bg-[#9333ea] rounded-lg hover:bg-[#4c1b7a] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+								>
+									Book Now
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
