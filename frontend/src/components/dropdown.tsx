@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDisplay, faMoon, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faDisplay, faMoon, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { faSun } from '@fortawesome/free-regular-svg-icons'
+import '../index.css'
 
 interface DropdownProps {
 	options: string[]
@@ -51,7 +52,10 @@ function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps
 					</>
 				)}
 				<span className="pl-2">
-					<FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+					<FontAwesomeIcon
+						icon={faChevronDown}
+						className={isOpen ? 'rotate-up' : 'rotate-down'}
+					/>
 				</span>
 			</div>
 			{isOpen && (
@@ -65,10 +69,13 @@ function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps
 								onClick={() => {
 									handleOptionClick(option)
 								}}
-								className="text-black dark:text-black"
+								className="px-4 text-black dark:text-black"
 								disabled={selectedOption === option}
 							>
-								<FontAwesomeIcon icon={option === 'dark' ? faMoon : option === 'light' ? faSun : faDisplay} />
+								<FontAwesomeIcon
+									className="pr-2"
+									icon={option === 'dark' ? faMoon : option === 'light' ? faSun : faDisplay}
+								/>
 								{option}
 							</button>
 						</div>
