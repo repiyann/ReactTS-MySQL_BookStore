@@ -1,30 +1,48 @@
-import express from 'express'
+import express, { response } from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import csurf from 'csurf'
 import bookRoutes from './routes/bookRoutes.js'
-import { sequelize } from './database/config.js'
+import userRoutes from './routes/userRoutes.js'
+import { database } from './database/config.js'
 
 const PORT = 8080
 const app = express()
+const csrfProtection = csurf({ cookie: true })
+
 app.use(express.json())
 app.use(cors())
+app.use(cookieParser())
+app.use(csrfProtection)
+
+app.use('/books', bookRoutes)
+app.use('/auth', userRoutes)
 
 app.get('/', (request, response) => {
 	console.log(request)
-	return response.status(234).send('Welcome to React + MySQL Stack Project')
+	return response.status(200).send('Welcome to React + MySQL Stack Project')
 })
-app.use('/books', bookRoutes)
+
+app.use((error, request, response, next) => {
+	if (error.code === 'EBADCSRFTOKEN') {
+		response.status(403).send('CSRF Token Error')
+	} else {
+		next(error)
+		response.status(500).send('Internal Server Error')
+	}
+})
 
 async function startServer() {
 	try {
-		await sequelize.sync()
-		await sequelize.authenticate()
+		await database.sync()
+		await database.authenticate()
 		console.log('Connection has been established successfully.')
 
 		app.listen(PORT, () => {
 			console.log(`Server is running on http://localhost:${PORT}`)
 		})
 	} catch (error) {
-		console.log('Error:', error)
+		console.error('Error:', error)
 	}
 }
 
