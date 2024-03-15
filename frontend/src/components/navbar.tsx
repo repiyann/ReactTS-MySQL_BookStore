@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Dropdown from './dropdown.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShieldHeart } from '@fortawesome/free-solid-svg-icons'
@@ -65,12 +66,14 @@ function Navbar() {
 								</a>
 							</div>
 							<div>
-								<a
-									href="#"
-									className="px-5 py-2 text-white text-lg font-semibold bg-[#9333ea] rounded-lg hover:bg-[#4c1b7a] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-								>
-									Book Now
-								</a>
+								<Link to={'/register'}>
+									<a
+										href="#"
+										className="px-5 py-2 text-white text-lg font-semibold bg-[#9333ea] rounded-lg hover:bg-[#4c1b7a] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+									>
+										Book Now
+									</a>
+								</Link>
 							</div>
 						</div>
 					</div>
