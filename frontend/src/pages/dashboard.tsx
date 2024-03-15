@@ -3,7 +3,7 @@ import { CarouselComponent } from '../components/carousel'
 import homeImage from '/images/home-image.svg'
 import aboutImage from '/images/about-image.svg'
 
-function dashboard() {
+function Dashboard() {
 	return (
 		<>
 			<Navbar />
@@ -69,4 +69,4 @@ function dashboard() {
 	)
 }
 
-export default dashboard
+export default Dashboard
