@@ -30,7 +30,7 @@ function CreateBook() {
 			.catch((error) => {
 				setLoading(false)
 				console.log(error)
-				enqueueSnackbar('Error', { variant: 'error' })
+				enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
 			})
 	}
 

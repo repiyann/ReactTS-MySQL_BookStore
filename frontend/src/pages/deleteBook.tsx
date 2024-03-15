@@ -22,7 +22,7 @@ function DeleteBook() {
 			})
 			.catch((error) => {
 				setLoading(false)
-				enqueueSnackbar('Error', { variant: 'error' })
+				enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
 				console.log(error)
 			})
 	}

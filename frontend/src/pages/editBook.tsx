@@ -27,7 +27,7 @@ function EditBook() {
 			.catch((error) => {
 				console.log(error)
 				setLoading(false)
-				enqueueSnackbar('Error', { variant: 'error' })
+				enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
 			})
 	}, [id, enqueueSnackbar])
 
@@ -48,7 +48,7 @@ function EditBook() {
 			.catch((error) => {
 				setLoading(false)
 				console.log(error)
-				enqueueSnackbar('Error', { variant: 'error' })
+				enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
 			})
 	}
 
