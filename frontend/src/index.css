@@ -6,6 +6,14 @@ html.dark {
     @apply dark:bg-gray-950;
   }
 
+html {
+  @apply bg-[#F8F7F4];
+}
+
+.bg-light {
+  @apply bg-[#F8F7F4];
+}
+
 .rotate-up {
   transition: transform 0.3s ease-in-out;
   transform: rotate(-180deg);
