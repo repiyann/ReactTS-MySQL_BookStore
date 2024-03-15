@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { MdOutlineAddBox } from 'react-icons/md'
-import Spinner from '../components/spinner'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+// import Spinner from '../components/spinner'
 import BooksCard from '../components/home/booksCard'
 import BooksTable from '../components/home/booksTable'
 
@@ -56,7 +58,17 @@ function Home() {
 					<MdOutlineAddBox className="text-sky-800 text-4xl" />
 				</Link>
 			</div>
-			{loading ? <Spinner /> : showType === 'table' ? <BooksTable books={books} /> : <BooksCard books={books} />}
+			{/* {loading ? <Spinner /> : showType === 'table' ? <BooksTable books={books} /> : <BooksCard books={books} />} */}
+			{loading ? (
+				<FontAwesomeIcon
+					icon={faSpinner}
+					spinPulse
+				/>
+			) : showType === 'table' ? (
+				<BooksTable books={books} />
+			) : (
+				<BooksCard books={books} />
+			)}
 		</div>
 	)
 }
