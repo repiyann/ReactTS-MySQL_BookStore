@@ -19,6 +19,11 @@ function Navbar() {
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
+	function scrollToService() {
+		const serviceSection = document.getElementById('menu')
+		serviceSection ? serviceSection.scrollIntoView({ behavior: 'smooth' }) : null
+	}
+
 	return (
 		<>
 			<nav className="bg-light dark:bg-gray-950 shadow-lg dark:shadow-gray-900 sticky top-0 z-[1000]">
@@ -45,8 +50,8 @@ function Navbar() {
 							/>
 							<div>
 								<a
-									href="#menu"
-									className="px-3 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
+									onClick={scrollToService}
+									className="px-3 text-lg cursor-pointer font-semibold dark:hover:text-[#9333ea] dark:text-white"
 								>
 									Services
 								</a>
