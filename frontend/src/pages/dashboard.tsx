@@ -1,4 +1,5 @@
 import Navbar from '../components/navbar'
+import { CarouselComponent } from '../components/carousel'
 import homeImage from '/images/home-image.svg'
 import aboutImage from '/images/about-image.svg'
 
@@ -25,7 +26,20 @@ function dashboard() {
 					/>
 				</div>
 			</div>
-			<section id="about">
+			<section
+				id="menu"
+				className="py-20 dark:bg-gray-950 bg-light"
+			>
+				<div className="px-5 z-[900] flex bg-light dark:bg-gray-950 justify-center flex-col items-center md:pt-5 md:pb-12 md:px-10 lg:px-[132px]">
+					<h1 className="text-4xl mb-5 font-semibold text-center dark:text-white">Services</h1>
+					<CarouselComponent />
+					<div className="px-5 flex flex-col justify-center items-center"></div>
+				</div>
+			</section>
+			<section
+				id="about"
+				className="bg-gray-950 bg-light"
+			>
 				<div className="px-5 py-20 flex bg-light dark:bg-gray-950 justify-center items-center md:pt-5 md:pb-12 md:px-10 lg:px-[132px] md:grid md:grid-cols-2 md:gap-10">
 					<div className="col-start-1 col-end-1 mt-5">
 						<img src={aboutImage} />
