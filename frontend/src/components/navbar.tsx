@@ -21,7 +21,7 @@ function Navbar() {
 
 	return (
 		<>
-			<nav className="bg-white dark:bg-gray-950 shadow-lg dark:shadow-gray-900 sticky top-0 z-[1000]">
+			<nav className="bg-light dark:bg-gray-950 shadow-lg dark:shadow-gray-900 sticky top-0 z-[1000]">
 				<div className="pt-3 md:px-5 md:py-5 lg:px-28">
 					<div className="flex justify-between pb-3 md:p-0">
 						<a
