@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDisplay, faMoon, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { faSun } from '@fortawesome/free-regular-svg-icons'
@@ -15,10 +15,23 @@ function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps
 	const [selectedOption, setSelectedOption] = useState<string | null>(null)
 	const [isOpen, setIsOpen] = useState(false)
 	const [opened, setOpened] = useState(false)
+	const dropdownRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		defaultOption && !selectedOption && opened && (setSelectedOption(defaultOption), onSelect(defaultOption))
 	}, [defaultOption, onSelect, selectedOption, opened])
+
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+				setIsOpen(false)
+			}
+		}
+		document.addEventListener('mousedown', handleClickOutside)
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [])
 
 	function handleOptionClick(option: string) {
 		setSelectedOption(option)
@@ -28,7 +41,10 @@ function Dropdown({ options, onSelect, className, defaultOption }: DropdownProps
 	}
 
 	return (
-		<div className={`${className || ''}`}>
+		<div
+			ref={dropdownRef}
+			className={`${className || ''}`}
+		>
 			<div
 				className="cursor-pointer text-black dark:text-white"
 				onClick={() => {
