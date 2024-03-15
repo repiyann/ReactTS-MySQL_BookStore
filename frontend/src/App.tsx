@@ -5,6 +5,8 @@ import ShowBook from './pages/showBook'
 import EditBook from './pages/editBook'
 import DeleteBook from './pages/deleteBook'
 import Dashboard from './pages/dashboard'
+import RegisterPage from './pages/auth/register'
+import LoginPage from './pages/auth/login'
 
 function App() {
 	return (
@@ -32,6 +34,14 @@ function App() {
 			<Route
 				path="/books/delete/:id"
 				element={<DeleteBook />}
+			/>
+			<Route
+				path="/register"
+				element={<RegisterPage />}
+			/>
+			<Route
+				path="/login"
+				element={<LoginPage />}
 			/>
 		</Routes>
 	)
