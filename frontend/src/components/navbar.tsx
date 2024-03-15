@@ -1,4 +1,6 @@
 import Dropdown from './dropdown.tsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShieldHeart } from '@fortawesome/free-solid-svg-icons'
 import { useTheme } from './useTheme.tsx'
 
 function Navbar() {
@@ -8,19 +10,33 @@ function Navbar() {
 		option === 'light' || option === 'dark' || option === 'system' ? setTheme(option) : null
 	}
 
+	function scrollToAbout() {
+		const aboutSection = document.getElementById('about')
+		aboutSection ? aboutSection.scrollIntoView({ behavior: 'smooth' }) : null
+	}
+
+	function scrollToHome() {
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}
+
 	return (
 		<>
 			<nav className="bg-white dark:bg-gray-950 shadow-lg dark:shadow-gray-900 sticky top-0 z-[1000]">
 				<div className="pt-3 md:px-5 md:py-5 lg:px-28">
 					<div className="flex justify-between pb-3 md:p-0">
 						<a
-							href="#"
-							className="flex items-center"
+							onClick={scrollToHome}
+							className="flex items-center cursor-pointer dark:text-white"
 						>
-							<p className="hidden md:block ml-2 text-2xl font-bold dark:text-white"> GrinWell Clinic </p>
+							<FontAwesomeIcon
+								className="text-[#9333ea]"
+								size="2xl"
+								icon={faShieldHeart}
+							/>
+							<p className="hidden md:block ml-2 text-2xl font-bold text-[#9333ea]"> GrinWell Clinic </p>
 						</a>
 						<div className="hidden md:flex">
-							<p className="text-black dark:text-white md:px-3">Current Theme: {actualTheme}</p>
+							<p className="text-black dark:text-white md:px-3">Actual Theme: {actualTheme}</p>
 							<Dropdown
 								options={['light', 'dark', 'system']}
 								onSelect={handleSelect}
@@ -37,8 +53,8 @@ function Navbar() {
 							</div>
 							<div>
 								<a
-									href="#about"
-									className="pl-3 pr-5 text-lg font-semibold dark:hover:text-[#9333ea] dark:text-white"
+									onClick={scrollToAbout}
+									className="pl-3 pr-5 text-lg cursor-pointer font-semibold dark:hover:text-[#9333ea] dark:text-white"
 								>
 									About Us
 								</a>
