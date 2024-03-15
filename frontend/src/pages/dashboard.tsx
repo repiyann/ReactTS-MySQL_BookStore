@@ -1,12 +1,12 @@
 import Navbar from '../components/navbar'
-import homeImage from '../../public/images/home-image.svg'
-import aboutImage from '../../public/images/about-image.svg'
+import homeImage from '/images/home-image.svg'
+import aboutImage from '/images/about-image.svg'
 
 function dashboard() {
 	return (
 		<>
 			<Navbar />
-			<div className="px-5 py-40 flex dark:bg-gray-950 justify-center items-center md:py-5 md:px-10 lg:px-[132px] md:grid md:grid-cols-2 md:gap-10">
+			<div className="px-5 py-40 flex bg-light dark:bg-gray-950 justify-center items-center md:py-5 md:px-10 lg:px-[132px] md:grid md:grid-cols-2 md:gap-10">
 				<div className="col-start-1 col-end-1 m-auto">
 					<h1 className="text-4xl font-semibold mb-5 dark:text-white">
 						<span style={{ color: '#9333ea', fontWeight: 700 }}> GrinWell Clinic </span>— Your Wellness, Our Priority!
@@ -26,7 +26,7 @@ function dashboard() {
 				</div>
 			</div>
 			<section id="about">
-				<div className="px-5 py-20 flex dark:bg-gray-950 justify-center items-center md:pt-5 md:pb-12 md:px-10 lg:px-[132px] md:grid md:grid-cols-2 md:gap-10">
+				<div className="px-5 py-20 flex bg-light dark:bg-gray-950 justify-center items-center md:pt-5 md:pb-12 md:px-10 lg:px-[132px] md:grid md:grid-cols-2 md:gap-10">
 					<div className="col-start-1 col-end-1 mt-5">
 						<img src={aboutImage} />
 					</div>
