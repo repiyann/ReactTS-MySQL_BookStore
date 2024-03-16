@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDisplay, faMoon, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { faSun } from '@fortawesome/free-regular-svg-icons'
-import '../index.css'
 
 interface DropdownProps {
 	options: string[]

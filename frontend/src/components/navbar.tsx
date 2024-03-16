@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import Dropdown from './dropdown.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShieldHeart } from '@fortawesome/free-solid-svg-icons'
-import { useTheme } from './useTheme.tsx'
+import { useTheme } from '../utils/useTheme.tsx'
+import Dropdown from './dropdown.tsx'
 
 function Navbar() {
 	const { theme, setTheme, actualTheme } = useTheme()
@@ -41,7 +41,7 @@ function Navbar() {
 							/>
 							<p className="hidden md:block ml-2 text-2xl font-bold text-[#9333ea]"> GrinWell Clinic </p>
 						</a>
-						<div className="hidden md:flex">
+						<div className="hidden md:flex items-center">
 							<p className="text-black dark:text-white md:px-3">Actual Theme: {actualTheme}</p>
 							<Dropdown
 								options={['light', 'dark', 'system']}

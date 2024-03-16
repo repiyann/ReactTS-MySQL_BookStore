@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 import Dropdown from '../../components/dropdown'
-import { useTheme } from '../../components/useTheme'
+import { useTheme } from '../../utils/useTheme'
 import authImage from '/images/auth-image.svg'
 
 function LoginPage() {
 	const { theme, setTheme } = useTheme()
 	const [username, setUsername] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
+	const [errorMessage, setErrorMessage] = useState<string>('')
 	const navigate = useNavigate()
 	const { enqueueSnackbar } = useSnackbar()
 
@@ -26,11 +27,15 @@ function LoginPage() {
 			.post('http://localhost:8080/auth/login', data)
 			.then(() => {
 				enqueueSnackbar('Successfully logged in', { variant: 'success' })
-				navigate('/dashboard')
+				navigate('/login')
+				setErrorMessage('')
 			})
 			.catch((error) => {
-				console.log(error)
-				enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
+				if (error.response && error.response.status === 400) {
+					setErrorMessage('Invalid username or password')
+				} else {
+					enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
+				}
 			})
 	}
 	return (
@@ -50,6 +55,7 @@ function LoginPage() {
 						<h1 className="text-xl dark:text-white md:text-2xl font-bold leading-tight mt-12">
 							Log in to your account
 						</h1>
+						{errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
 						<form
 							className="mt-6"
@@ -95,17 +101,23 @@ function LoginPage() {
 						</form>
 
 						<hr className="my-6 border-gray-300 w-full" />
-						<p className="mt-2 dark:text-white">
+						<div className="mt-2 dark:text-white items-center flex">
 							Don't have an account?
-							<Link to={'/register'}>
-								<a className="text-blue-500 ml-1 hover:text-blue-700 font-semibold">Sign in</a>
+							<Link
+								to={'/register'}
+								className="text-blue-500 ml-1 hover:text-blue-700 font-semibold"
+							>
+								Sign in
 							</Link>
-						</p>
+						</div>
 					</div>
 				</div>
 				<nav className="absolute top-0 left-0 right-0 p-4 flex justify-between w-full">
-					<Link to={'/'}>
-						<button className="text-white bg-indigo-600 px-4 py-2 rounded-lg">Back</button>
+					<Link
+						to={'/'}
+						className="text-white bg-indigo-600 px-4 py-2 rounded-lg"
+					>
+						Back
 					</Link>
 					<div className="flex items-center text-black dark:text-white">
 						<Dropdown
