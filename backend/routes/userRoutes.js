@@ -12,16 +12,24 @@ const router = express.Router()
 
 router.post('/register', async (request, response) => {
 	try {
-		if (!request.body.username || !request.body.email || !request.body.password) {
+		const { username, email, password, confirmPassword } = request.body
+
+		if (!username || !email || !password || !confirmPassword) {
 			return response.status(400).send({
-				message: 'Send all required fields: username, email, password'
+				message: 'You need to send all required fields: username, email, password'
 			})
 		}
 
-		const hashedPassword = await bcrypt.hash(request.body.password, 10)
+		if (password !== confirmPassword) {
+			return response.status(400).send({
+				message: 'Password and confirmPassword do not match'
+			})
+		}
+
+		const hashedPassword = await bcrypt.hash(password, 10)
 		const newUser = {
-			username: request.body.username,
-			email: request.body.email,
+			username,
+			email,
 			password: hashedPassword
 		}
 
@@ -30,7 +38,7 @@ router.post('/register', async (request, response) => {
 		response.status(201).send(user)
 	} catch (error) {
 		if (error.name === 'SequelizeValidationError') {
-			response.status(400).send({ message: 'Validation error', errors: error.errors })
+			response.status(400).send({ message: 'Validation error: ', errors: error.errors })
 		} else {
 			response.status(500).send({ message: error.message })
 		}
@@ -39,14 +47,16 @@ router.post('/register', async (request, response) => {
 
 router.post('/login', loginLimiter, async (request, response) => {
 	try {
-		if (!request.body.username || !request.body.password) {
+		const { username, password } = request.body
+
+		if (!username || !password) {
 			return response.status(400).send({
-				message: 'Send all required fields: username, password'
+				message: 'You need to send all required fields: username, password'
 			})
 		}
 
-		const user = await User.findOne({ where: { [Op.eq]: request.body.username } })
-		const match = await bcrypt.compare(request.body.password, user.password)
+		const user = await User.findOne({ where: { username } })
+		const match = await bcrypt.compare(password, user.password)
 
 		if (!user || !match) {
 			return response.status(400).json({ error: 'Invalid username or password' })
