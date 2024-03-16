@@ -52,7 +52,7 @@ router.post('/login', loginLimiter, async (request, response) => {
 
 		if (!username || !password) {
 			return response.status(400).send({
-				message: 'You need to send all required fields: username, password'
+				message: 'You need to send all required fields: Username and Password'
 			})
 		}
 

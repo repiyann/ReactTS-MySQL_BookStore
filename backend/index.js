@@ -27,11 +27,11 @@ app.get('/getCSRFToken', (request, response) => {
 	response.json({ CSRFToken: request.csrfToken() })
 })
 
-app.use((error, request, response, next) => {
+app.use((error, response) => {
 	if (error.code === 'EBADCSRFTOKEN') {
 		response.status(403).send({ message: 'CSRF Token Error' })
 	} else {
-		console.error('Internal Server Error:', error)
+		console.error('Internal Server Error: ', error)
 		response.status(500).send({ message: `Internal Server Error: ${error.message}` })
 	}
 })
@@ -46,7 +46,7 @@ async function startServer() {
 			console.log(`Server is running on http://localhost:${PORT}`)
 		})
 	} catch (error) {
-		console.error('Error:', error)
+		console.error('Error: ', error)
 	}
 }
 
