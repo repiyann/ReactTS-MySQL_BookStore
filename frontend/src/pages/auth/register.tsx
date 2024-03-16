@@ -1,7 +1,7 @@
-import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
+import api, { fetchCSRFToken } from '../../api.ts'
 import Dropdown from '../../components/dropdown'
 import { useTheme } from '../../components/useTheme'
 import authImage from '/images/auth-image.svg'
@@ -11,28 +11,51 @@ function RegisterPage() {
 	const [username, setUsername] = useState<string>('')
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
+	const [confirmPassword, setConfirmPassword] = useState<string>('')
+	const [errorMessage, setErrorMessage] = useState<string>('')
+	const [csrfToken, setCSRFToken] = useState('')
 	const navigate = useNavigate()
 	const { enqueueSnackbar } = useSnackbar()
+
+	useEffect(() => {
+		const getCSRFToken = async () => {
+			const token = await fetchCSRFToken()
+			setCSRFToken(token)
+		}
+		getCSRFToken()
+	}, [])
 
 	function handleSelect(option: string) {
 		option === 'light' || option === 'dark' || option === 'system' ? setTheme(option) : null
 	}
 
 	function handleRegister() {
+		if (password !== confirmPassword) {
+			setErrorMessage('Passwords do not match')
+			return
+		}
+
 		const data = {
 			username,
 			email,
-			password
+			password,
+			confirmPassword
 		}
-		axios
-			.post('http://localhost:8080/auth/register', data)
+
+		api
+			.post('http://localhost:8080/auth/register', data, {
+				headers: {
+					'X-CSRF-TOKEN': csrfToken
+				}
+			})
 			.then(() => {
 				enqueueSnackbar('Account created successfully', { variant: 'success' })
 				navigate('/dashboard')
+				setErrorMessage('')
 			})
 			.catch((error) => {
-				console.log(error)
-				enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
+				const errorMessage = error.response.data.message || 'An error occurred'
+				enqueueSnackbar(`Error: ${errorMessage}`, { variant: 'error' })
 			})
 	}
 
@@ -50,7 +73,8 @@ function RegisterPage() {
 
 				<div className="bg-light dark:bg-gray-950 w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center">
 					<div className="w-full h-100">
-						<h1 className="text-xl dark:text-white md:text-2xl font-bold leading-tight mt-12"> Create your account </h1>
+						<h1 className="text-xl dark:text-white md:text-2xl font-bold leading-tight mt-12">Create your account</h1>
+						{errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
 						<form
 							className="mt-6"
@@ -106,6 +130,8 @@ function RegisterPage() {
 									className="w-full px-4 py-3 rounded-lg bg-[#e7def7] mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
 									autoFocus
 									required
+									value={confirmPassword}
+									onChange={(e) => setConfirmPassword(e.target.value)}
 								/>
 							</div>
 							<button
@@ -117,17 +143,20 @@ function RegisterPage() {
 						</form>
 
 						<hr className="my-6 border-gray-300 w-full" />
-						<p className="mt-2 dark:text-white">
+						<div className="mt-2 dark:text-white items-center flex">
 							Have an account?
 							<Link to={'/login'}>
-								<a className="text-blue-500 ml-1 hover:text-blue-700 font-semibold">Log in</a>
+								<p className="text-blue-500 ml-1 hover:text-blue-700 font-semibold">Log in</p>
 							</Link>
-						</p>
+						</div>
 					</div>
 				</div>
 				<nav className="absolute top-0 left-0 right-0 p-4 flex justify-between w-full">
-					<Link to={'/'}>
-						<button className="text-white bg-indigo-600 px-4 py-2 rounded-lg">Back</button>
+					<Link
+						to={'/'}
+						className="text-white bg-indigo-600 px-4 py-2 rounded-lg"
+					>
+						Back
 					</Link>
 					<div className="flex items-center text-black dark:text-white">
 						<Dropdown
