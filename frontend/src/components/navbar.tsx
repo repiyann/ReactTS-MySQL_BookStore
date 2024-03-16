@@ -67,12 +67,9 @@ function Navbar() {
 							</div>
 							<div>
 								<Link to={'/register'}>
-									<a
-										href="#"
-										className="px-5 py-2 text-white text-lg font-semibold bg-[#9333ea] rounded-lg hover:bg-[#4c1b7a] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-									>
+									<p className="px-5 py-2 text-white text-lg font-semibold bg-[#9333ea] rounded-lg hover:bg-[#4c1b7a] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
 										Book Now
-									</a>
+									</p>
 								</Link>
 							</div>
 						</div>
