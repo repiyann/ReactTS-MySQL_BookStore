@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 html.dark {
-    @apply dark:bg-gray-950;
-  }
+  @apply dark:bg-gray-950;
+}
 
 html {
   @apply bg-[#F8F7F4];

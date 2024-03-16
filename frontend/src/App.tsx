@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
+import Dashboard from './pages/dashboard'
 import Home from './pages/home'
 import CreateBook from './pages/createBook'
 import ShowBook from './pages/showBook'
 import EditBook from './pages/editBook'
 import DeleteBook from './pages/deleteBook'
-import Dashboard from './pages/dashboard'
 import RegisterPage from './pages/auth/register'
 import LoginPage from './pages/auth/login'
 

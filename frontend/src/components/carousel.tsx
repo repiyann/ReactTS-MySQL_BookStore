@@ -14,7 +14,7 @@ interface ImageCarousel {
 	prevSlide: () => void
 }
 
-export function CarouselComponent() {
+function Carousel() {
 	const [carousel, setCarousel] = useState<ImageCarousel>({
 		activeSlide: 0,
 		slides: [],
@@ -112,3 +112,5 @@ export function CarouselComponent() {
 		</div>
 	)
 }
+
+export default Carousel

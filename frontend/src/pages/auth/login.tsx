@@ -1,16 +1,17 @@
-import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
+import api, { fetchCSRFToken } from '../../api/api.ts'
 import Dropdown from '../../components/dropdown'
 import { useTheme } from '../../utils/useTheme'
 import authImage from '/images/auth-image.svg'
 
 function LoginPage() {
-	const { theme, setTheme } = useTheme()
 	const [username, setUsername] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [errorMessage, setErrorMessage] = useState<string>('')
+	const [csrfToken, setCSRFToken] = useState<string>('')
+	const { theme, setTheme } = useTheme()
 	const navigate = useNavigate()
 	const { enqueueSnackbar } = useSnackbar()
 
@@ -18,26 +19,38 @@ function LoginPage() {
 		option === 'light' || option === 'dark' || option === 'system' ? setTheme(option) : null
 	}
 
+	useEffect(() => {
+		async function getCSRFToken() {
+			const token = await fetchCSRFToken()
+			setCSRFToken(token)
+		}
+		getCSRFToken()
+	}, [])
+
 	function handleLogin() {
 		const data = {
 			username,
 			password
 		}
-		axios
-			.post('http://localhost:8080/auth/login', data)
+
+		api
+			.post('http://localhost:8080/auth/login', data, {
+				headers: {
+					'X-CSRF-TOKEN': csrfToken
+				}
+			})
 			.then(() => {
 				enqueueSnackbar('Successfully logged in', { variant: 'success' })
 				navigate('/login')
 				setErrorMessage('')
 			})
 			.catch((error) => {
-				if (error.response && error.response.status === 400) {
-					setErrorMessage('Invalid username or password')
-				} else {
-					enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
-				}
+				error.response && error.response.status === 400
+					? setErrorMessage('Invalid username or password')
+					: enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
 			})
 	}
+
 	return (
 		<>
 			<section className="flex flex-col md:flex-row h-screen items-center">
@@ -112,6 +125,7 @@ function LoginPage() {
 						</div>
 					</div>
 				</div>
+
 				<nav className="absolute top-0 left-0 right-0 p-4 flex justify-between w-full">
 					<Link
 						to={'/'}

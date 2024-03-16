@@ -7,18 +7,18 @@ import { useTheme } from '../../utils/useTheme.tsx'
 import authImage from '/images/auth-image.svg'
 
 function RegisterPage() {
-	const { theme, setTheme } = useTheme()
 	const [username, setUsername] = useState<string>('')
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [confirmPassword, setConfirmPassword] = useState<string>('')
 	const [errorMessage, setErrorMessage] = useState<string>('')
-	const [csrfToken, setCSRFToken] = useState('')
+	const [csrfToken, setCSRFToken] = useState<string>('')
+	const { theme, setTheme } = useTheme()
 	const navigate = useNavigate()
 	const { enqueueSnackbar } = useSnackbar()
 
 	useEffect(() => {
-		const getCSRFToken = async () => {
+		async function getCSRFToken() {
 			const token = await fetchCSRFToken()
 			setCSRFToken(token)
 		}
@@ -30,11 +30,6 @@ function RegisterPage() {
 	}
 
 	function handleRegister() {
-		if (password !== confirmPassword) {
-			setErrorMessage('Passwords do not match')
-			return
-		}
-
 		const data = {
 			username,
 			email,
@@ -50,12 +45,13 @@ function RegisterPage() {
 			})
 			.then(() => {
 				enqueueSnackbar('Account created successfully', { variant: 'success' })
-				navigate('/dashboard')
+				navigate('/register')
 				setErrorMessage('')
 			})
 			.catch((error) => {
-				const errorMessage = error.response.data.message || 'An error occurred'
-				enqueueSnackbar(`Error: ${errorMessage}`, { variant: 'error' })
+				error.response && error.response.status === 400
+					? setErrorMessage('Password and Confirm Password do not match')
+					: enqueueSnackbar(`Error: ${error.message}`, { variant: 'error' })
 			})
 	}
 
@@ -151,6 +147,7 @@ function RegisterPage() {
 						</div>
 					</div>
 				</div>
+
 				<nav className="absolute top-0 left-0 right-0 p-4 flex justify-between w-full">
 					<Link
 						to={'/'}

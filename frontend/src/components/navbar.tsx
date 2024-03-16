@@ -11,11 +11,6 @@ function Navbar() {
 		option === 'light' || option === 'dark' || option === 'system' ? setTheme(option) : null
 	}
 
-	function scrollToAbout() {
-		const aboutSection = document.getElementById('about')
-		aboutSection ? aboutSection.scrollIntoView({ behavior: 'smooth' }) : null
-	}
-
 	function scrollToHome() {
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
@@ -23,6 +18,11 @@ function Navbar() {
 	function scrollToService() {
 		const serviceSection = document.getElementById('menu')
 		serviceSection ? serviceSection.scrollIntoView({ behavior: 'smooth' }) : null
+	}
+
+	function scrollToAbout() {
+		const aboutSection = document.getElementById('about')
+		aboutSection ? aboutSection.scrollIntoView({ behavior: 'smooth' }) : null
 	}
 
 	return (

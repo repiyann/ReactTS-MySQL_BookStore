@@ -10,7 +10,7 @@ export interface ThemeContextType {
 
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+function ThemeProvider({ children }: { children: React.ReactNode }) {
 	const [theme, setThemeState] = useState<Theme>(() => {
 		const savedTheme = localStorage.getItem('theme')
 		return (savedTheme as Theme) || 'system'
@@ -33,6 +33,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			theme === 'system' ? setActualTheme(mediaQuery.matches ? 'dark' : 'light') : null
 		}
 		listener()
+
 		mediaQuery.addEventListener('change', listener)
 		return () => mediaQuery.removeEventListener('change', listener)
 	}, [theme])
@@ -51,3 +52,5 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 	return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>
 }
+
+export default ThemeProvider
