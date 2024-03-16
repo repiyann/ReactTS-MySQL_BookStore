@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { BsArrowLeft } from 'react-icons/bs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 function BackButton() {
 	return (
@@ -8,7 +9,7 @@ function BackButton() {
 				to={'/'}
 				className="bg-sky-800 text-white py-1 px-4 rounded-lg w-fit"
 			>
-				<BsArrowLeft className="text-2xl" />
+				<FontAwesomeIcon icon={faArrowLeft} />
 			</Link>
 		</div>
 	)
