@@ -20,7 +20,7 @@ app.use('/auth', userRoutes)
 
 app.get('/', (request, response) => {
 	console.log(request)
-	return response.status(200).send('Welcome to React + MySQL Stack Project')
+	return response.status(200).send({ message: 'Welcome to React + MySQL Stack Project' })
 })
 
 app.get('/getCSRFToken', (request, response) => {
@@ -29,15 +29,11 @@ app.get('/getCSRFToken', (request, response) => {
 
 app.use((error, request, response, next) => {
 	if (error.code === 'EBADCSRFTOKEN') {
-		response.status(403).send('CSRF Token Error')
+		response.status(403).send({ message: 'CSRF Token Error' })
 	} else {
-		next(error)
+		console.error('Internal Server Error:', error)
+		response.status(500).send({ message: `Internal Server Error: ${error.message}` })
 	}
-})
-
-app.use((error, request, response, next) => {
-	console.error('Internal Server Error:', error)
-	response.status(500).send('Internal Server Error')
 })
 
 async function startServer() {

@@ -5,9 +5,10 @@ import { User } from '../models/userModel.js'
 
 const loginLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
-	max: 5,
+	limit: 5,
 	message: 'Too many login attempts, please try again later'
 })
+
 const router = express.Router()
 
 router.post('/register', async (request, response) => {
@@ -16,13 +17,13 @@ router.post('/register', async (request, response) => {
 
 		if (!username || !email || !password || !confirmPassword) {
 			return response.status(400).send({
-				message: 'You need to send all required fields: username, email, password'
+				message: 'You need to send all required fields: Username, Email, Password, and Confirm Password'
 			})
 		}
 
 		if (password !== confirmPassword) {
 			return response.status(400).send({
-				message: 'Password and confirmPassword do not match'
+				message: 'Password and Confirm Password do not match'
 			})
 		}
 
@@ -40,7 +41,7 @@ router.post('/register', async (request, response) => {
 		if (error.name === 'SequelizeValidationError') {
 			response.status(400).send({ message: 'Validation error: ', errors: error.errors })
 		} else {
-			response.status(500).send({ message: error.message })
+			response.status(500).send({ message: `Error: ${error.message}` })
 		}
 	}
 })
@@ -56,15 +57,20 @@ router.post('/login', loginLimiter, async (request, response) => {
 		}
 
 		const user = await User.findOne({ where: { username } })
+
+		if (!user) {
+			return response.status(400).send({ message: 'Invalid username or password' })
+		}
+
 		const match = await bcrypt.compare(password, user.password)
 
-		if (!user || !match) {
-			return response.status(400).json({ error: 'Invalid username or password' })
+		if (!match) {
+			return response.status(400).send({ message: 'Invalid username or password' })
 		}
 
 		response.status(200).send(user)
 	} catch (error) {
-		response.status(500).send({ message: error.message })
+		response.status(500).send({ message: `Error: ${error.message}` })
 	}
 })
 
