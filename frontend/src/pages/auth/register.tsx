@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
-import api, { fetchCSRFToken } from '../../api.ts'
+import api, { fetchCSRFToken } from '../../api/api.ts'
 import Dropdown from '../../components/dropdown'
-import { useTheme } from '../../components/useTheme'
+import { useTheme } from '../../utils/useTheme.tsx'
 import authImage from '/images/auth-image.svg'
 
 function RegisterPage() {
