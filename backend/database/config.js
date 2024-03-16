@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize'
 
 export const database = new Sequelize({
-	dialect: 'mysql',
 	host: 'localhost',
+	dialect: 'mysql',
 	username: 'root',
 	password: '',
 	database: 'bookstore'

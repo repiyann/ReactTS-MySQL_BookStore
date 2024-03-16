@@ -18,8 +18,8 @@ export const User = database.define('User', {
 		allowNull: false,
 		unique: true,
 		validate: {
-			isEmail: true,
-			notEmpty: true
+			notEmpty: true,
+			isEmail: true
 		}
 	},
 	password: {
