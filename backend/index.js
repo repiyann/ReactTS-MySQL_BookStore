@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import csurf from 'csurf'
@@ -11,7 +11,7 @@ const app = express()
 const csrfProtection = csurf({ cookie: true })
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
 app.use(cookieParser())
 app.use(csrfProtection)
 
@@ -23,13 +23,21 @@ app.get('/', (request, response) => {
 	return response.status(200).send('Welcome to React + MySQL Stack Project')
 })
 
+app.get('/getCSRFToken', (request, response) => {
+	response.json({ CSRFToken: request.csrfToken() })
+})
+
 app.use((error, request, response, next) => {
 	if (error.code === 'EBADCSRFTOKEN') {
 		response.status(403).send('CSRF Token Error')
 	} else {
 		next(error)
-		response.status(500).send('Internal Server Error')
 	}
+})
+
+app.use((error, request, response, next) => {
+	console.error('Internal Server Error:', error)
+	response.status(500).send('Internal Server Error')
 })
 
 async function startServer() {
