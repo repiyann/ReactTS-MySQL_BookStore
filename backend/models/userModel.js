@@ -10,18 +10,24 @@ export const User = database.define('User', {
 	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true
+		unique: true,
+		validate: { notEmpty: true, len: [5, 20] }
 	},
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
 		validate: {
-			isEmail: true
+			isEmail: true,
+			notEmpty: true
 		}
 	},
 	password: {
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: false,
+		validate: {
+			notEmpty: true,
+			is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).+$/
+		}
 	}
 })
